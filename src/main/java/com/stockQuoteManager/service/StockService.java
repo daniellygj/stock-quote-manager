@@ -33,8 +33,7 @@ public class StockService {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-//        return repository.save(converter.toModel(stockDTO));
-        return new Stock();
+        return repository.save(converter.toModel(stockDTO));
     }
 
     public Stock findByStockName(String quoteId) {

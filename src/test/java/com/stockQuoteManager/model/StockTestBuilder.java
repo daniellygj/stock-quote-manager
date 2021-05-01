@@ -4,7 +4,7 @@ import com.stockQuoteManager.model.Stock.StockBuilder;
 
 public class StockTestBuilder {
 
-    private static String DEFAULT_STOCK_NAME = "petr3";
+    private static String DEFAULT_STOCK_NAME = "petr4";
 
     private static StockBuilder builder = Stock.builder();
 

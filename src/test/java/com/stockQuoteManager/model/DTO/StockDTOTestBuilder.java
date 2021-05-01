@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class StockDTOTestBuilder {
 
-    private static final String DEFAULT_ID = "petr3";
+    private static final String DEFAULT_ID = "petr4";
 
     private static final Map<String, String> DEFAULT_QUOTES = Map.of(
             "2019-01-01", "10",

@@ -8,6 +8,7 @@ import com.stockQuoteManager.model.QuoteTestBuilder;
 import com.stockQuoteManager.model.Stock;
 import com.stockQuoteManager.model.StockTestBuilder;
 import com.stockQuoteManager.repository.StockRepository;
+import com.stockQuoteManager.utils.exception.Exception.InvalidStockException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -35,7 +36,6 @@ public class StockServiceTest {
     @Mock
     private StockConverter converter;
 
-    @Test
     public void saveStockShouldSucceed() {
         StockDTO stockDTO = StockDTOTestBuilder
                 .init()
@@ -61,6 +61,17 @@ public class StockServiceTest {
 
         assertEquals(stockSaved.getStockName(), stock.getStockName());
         assertEquals(stockSaved.getQuotes(), stock.getQuotes());
+    }
+
+    @Test(expected = InvalidStockException.class)
+    public void saveStockShouldFail() {
+        StockDTO stockDTO = StockDTOTestBuilder
+                .init()
+                .withDefaultValues()
+                .id("invalid id")
+                .build();
+
+        service.addNewQuote(stockDTO);
     }
 
     @Test
