@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+    <changeSet id="1" author="danielly">
+        <createTable tableName="stock">
+            <column name="id" type="BIGINT"/>
+            <column name="stock_name" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="danielly">
+        <createTable tableName="quote">
+            <column name="id" type="BIGINT"/>
+            <column name="date" type="DATE"/>
+            <column name="value" type="INT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="danielly">
+        <createTable tableName="stock_quotes">
+            <column name="id" type="BIGINT"/>
+            <column name="stock_id" type="BIGINT"/>
+            <column name="quotes_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4" author="danielly">
+        <addPrimaryKey columnNames="id" tableName="stock" constraintName="stock_pk"/>
+        <addPrimaryKey columnNames="id" tableName="quote" constraintName="quote_pk"/>
+        <addPrimaryKey columnNames="id" tableName="stock_quotes" constraintName="stock_quotes_pk"/>
+    </changeSet>
+
+    <changeSet id="5" author="danielly">
+        <addAutoIncrement columnDataType="BIGINT" columnName="id" incrementBy="1" tableName="stock"/>
+        <addAutoIncrement columnDataType="BIGINT" columnName="id" incrementBy="1" tableName="quote"/>
+        <addAutoIncrement columnDataType="BIGINT" columnName="id" incrementBy="1" tableName="stock_quotes"/>
+    </changeSet>
+
+    <changeSet id="6" author="danielly">
+        <addForeignKeyConstraint baseColumnNames="stock_id" baseTableName="stock_quotes" constraintName="stock_fk"
+                                 referencedColumnNames="id" referencedTableName="stock"/>
+
+        <addForeignKeyConstraint baseColumnNames="quotes_id" baseTableName="stock_quotes" constraintName="quote_fk"
+                                 referencedColumnNames="id" referencedTableName="quote"/>
+    </changeSet>
+
+    <changeSet id="7" author="danielly">
+        <addUniqueConstraint columnNames="stock_name" constraintName="stock_name_unique" tableName="stock"/>
+    </changeSet>
+</databaseChangeLog>
