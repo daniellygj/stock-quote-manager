@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Collections;
+import java.util.List;
 
 import static com.stockQuoteManager.utils.JSONParser.toJSON;
 import static org.hamcrest.Matchers.is;
@@ -76,7 +77,7 @@ public class StockControllerTest {
         mvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON).content(toJSON(stockDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id",
-                        is(stock.getStockName())));
+                        is(stockDTO.getId())));
     }
 
     @Test
@@ -97,12 +98,41 @@ public class StockControllerTest {
                 .quotes(Collections.singletonList(quote))
                 .build();
 
-        when(service.findQuoteByStockName(stock.getStockName())).thenReturn(stock);
+        when(service.findByStockName(stock.getStockName())).thenReturn(stock);
         when(converter.toDTO(stock)).thenReturn(stockDTO);
 
         mvc.perform(get(URL + "/" + stock.getStockName()).contentType(MediaType.APPLICATION_JSON).content(toJSON(stockDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id",
-                        is(stock.getStockName())));
+                        is(stockDTO.getId())));
+    }
+
+    @Test
+    public void findAllQuotesShouldSucceed() throws Exception {
+        StockDTO stockDTO = StockDTOTestBuilder
+                .init()
+                .withDefaultValues()
+                .build();
+
+        Quote quote = QuoteTestBuilder
+                .init()
+                .withDefaultValues()
+                .build();
+
+        Stock stock = StockTestBuilder
+                .init()
+                .withDefaultValues()
+                .quotes(Collections.singletonList(quote))
+                .build();
+
+        List<Stock> stockList = Collections.singletonList(stock);
+
+        when(service.findAllStock()).thenReturn(stockList);
+        when(converter.stockListToDTO(stockList)).thenReturn(Collections.singletonList(stockDTO));
+
+        mvc.perform(get(URL).contentType(MediaType.APPLICATION_JSON).content(toJSON(Collections.singletonList(stockDTO))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].id",
+                        is(stockDTO.getId())));
     }
 }

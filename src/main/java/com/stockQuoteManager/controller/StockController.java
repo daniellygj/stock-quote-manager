@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/stock-quote-manager")
 public class StockController {
@@ -25,8 +27,14 @@ public class StockController {
 
     @GetMapping("/{quoteId}")
     @ApiOperation(value = "Find quote by id")
-    public StockDTO findbyId(@PathVariable("quoteId") String quoteId) {
-        return converter.toDTO(service.findQuoteByStockName(quoteId));
+    public StockDTO findQuoteById(@PathVariable("quoteId") String quoteId) {
+        return converter.toDTO(service.findByStockName(quoteId));
+    }
+
+    @GetMapping
+    @ApiOperation(value = "Find all quotes")
+    public List<StockDTO> findAllQuotes() {
+        return converter.stockListToDTO(service.findAllStock());
     }
 
 }

@@ -28,6 +28,16 @@ public class StockConverter {
                 .build();
     }
 
+    public List<StockDTO> stockListToDTO(List<Stock> stockList) {
+        List<StockDTO> stockDTOList = new ArrayList<>();
+
+        stockList.forEach(stock -> {
+            stockDTOList.add(toDTO(stock));
+        });
+
+        return stockDTOList;
+    }
+
     private List<Quote> quotesToList(Map<String, String> quoteMap) {
         if (quoteMap == null || quoteMap.isEmpty()) {
             return null;
