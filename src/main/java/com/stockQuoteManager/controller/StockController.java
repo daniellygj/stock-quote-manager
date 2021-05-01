@@ -5,10 +5,7 @@ import com.stockQuoteManager.model.DTO.StockDTO;
 import com.stockQuoteManager.service.StockService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/stock-quote-manager")
@@ -24,6 +21,12 @@ public class StockController {
     @ApiOperation(value = "Add new quote")
     public StockDTO newQuote(@RequestBody StockDTO stockDTO) {
         return converter.toDTO(service.addNewQuote(stockDTO));
+    }
+
+    @GetMapping("/{quoteId}")
+    @ApiOperation(value = "Find quote by id")
+    public StockDTO findbyId(@PathVariable("quoteId") String quoteId) {
+        return converter.toDTO(service.findQuoteByStockName(quoteId));
     }
 
 }
