@@ -16,7 +16,7 @@ public class StockConverter {
         return StockDTO
                 .builder()
                 .id(stock.getStock_name())
-                .quotes(quotesToHashMap(stock.getQuotes()))
+                .quotes(quotesToMap(stock.getQuotes()))
                 .build();
     }
 
@@ -28,10 +28,13 @@ public class StockConverter {
                 .build();
     }
 
-    private static List<Quote> quotesToList(HashMap<String, String> quoteHashMap) {
+    private static List<Quote> quotesToList(Map<String, String> quoteMap) {
+        if (quoteMap == null || quoteMap.isEmpty()) {
+            return null;
+        }
         List<Quote> quoteList = new LinkedList<>();
 
-        for (Map.Entry<String, String> entry : quoteHashMap.entrySet()) {
+        for (Map.Entry<String, String> entry : quoteMap.entrySet()) {
             String date = entry.getKey();
             String value = entry.getValue();
 
@@ -52,8 +55,12 @@ public class StockConverter {
         return quoteList;
     }
 
-    private static HashMap<String, String> quotesToHashMap(List<Quote> quoteList) {
-        HashMap<String, String> quotes = new HashMap<>();
+    private static Map<String, String> quotesToMap(List<Quote> quoteList) {
+        if (quoteList == null || quoteList.isEmpty()) {
+            return null;
+        }
+
+        Map<String, String> quotes = new HashMap<>();
 
         quoteList.forEach(quote -> {
             quotes.put(quote.getDate().toString(), quote.getValue());

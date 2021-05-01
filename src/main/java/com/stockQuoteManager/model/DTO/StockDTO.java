@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashMap;
+import java.util.Map;
 
 @Data
 @Builder
@@ -15,5 +15,5 @@ public class StockDTO {
 
     private String id;
 
-    private HashMap<String, String> quotes;
+    private Map<String, String> quotes;
 }
