@@ -7,13 +7,19 @@ import com.stockQuoteManager.model.QuoteTestBuilder;
 import com.stockQuoteManager.model.Stock;
 import com.stockQuoteManager.model.StockTestBuilder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Collections;
 
-import static com.stockQuoteManager.controller.converter.StockConverter.*;
 import static org.junit.Assert.assertEquals;
 
+@RunWith(MockitoJUnitRunner.class)
 public class StockConverterTest {
+
+    @InjectMocks
+    private StockConverter converter;
 
     @Test
     public void shouldConvertToDTO() {
@@ -28,7 +34,7 @@ public class StockConverterTest {
                 .quotes(Collections.singletonList(quote))
                 .build();
 
-        StockDTO stockDTO = toDTO(stock);
+        StockDTO stockDTO = converter.toDTO(stock);
 
         assertEquals(stock.getStockName(), stockDTO.getId());
         assertEquals(stock.getQuotes().get(0).getDate().toString(), stockDTO.getQuotes().entrySet().iterator().next().getKey());
@@ -42,7 +48,7 @@ public class StockConverterTest {
                 .withDefaultValues()
                 .build();
 
-        Stock stock = toModel(stockDTO);
+        Stock stock = converter.toModel(stockDTO);
 
         assertEquals(stockDTO.getId(), stock.getStockName());
         assertEquals(stockDTO.getQuotes().entrySet().iterator().next().getKey(), stock.getQuotes().get(0).getDate().toString());

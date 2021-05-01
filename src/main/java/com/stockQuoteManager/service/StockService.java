@@ -1,5 +1,7 @@
 package com.stockQuoteManager.service;
 
+import com.stockQuoteManager.controller.converter.StockConverter;
+import com.stockQuoteManager.model.DTO.StockDTO;
 import com.stockQuoteManager.model.Stock;
 import com.stockQuoteManager.repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,12 @@ public class StockService {
     @Autowired
     private StockRepository repository;
 
-    public Stock addNewQuote(Stock stock) {
-        return repository.save(stock);
+    @Autowired
+    private StockConverter converter;
+
+
+    public Stock addNewQuote(StockDTO stockDTO) {
+        return repository.save(converter.toModel(stockDTO));
     }
 }
 

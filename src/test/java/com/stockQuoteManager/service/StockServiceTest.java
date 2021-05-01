@@ -1,5 +1,6 @@
 package com.stockQuoteManager.service;
 
+import com.stockQuoteManager.controller.converter.StockConverter;
 import com.stockQuoteManager.model.DTO.StockDTO;
 import com.stockQuoteManager.model.DTO.StockDTOTestBuilder;
 import com.stockQuoteManager.model.Quote;
@@ -11,8 +12,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
@@ -28,6 +32,9 @@ public class StockServiceTest {
 
     @Mock
     private StockRepository repository;
+
+    @Mock
+    private StockConverter converter;
 
     @Test
     public void saveStockShouldSucceed() {
@@ -49,8 +56,9 @@ public class StockServiceTest {
                 .build();
 
         when(repository.save(stockSaved)).thenReturn(stockSaved);
+        when(converter.toModel(stockDTO)).thenReturn(stockSaved);
 
-        Stock stock = service.addNewQuote(stockSaved);
+        Stock stock = service.addNewQuote(stockDTO);
 
         assertEquals(stockSaved.getStockName(), stock.getStockName());
         assertEquals(stockSaved.getQuotes(), stock.getQuotes());

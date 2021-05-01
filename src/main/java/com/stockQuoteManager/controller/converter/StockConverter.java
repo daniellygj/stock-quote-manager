@@ -3,14 +3,16 @@ package com.stockQuoteManager.controller.converter;
 import com.stockQuoteManager.model.DTO.StockDTO;
 import com.stockQuoteManager.model.Quote;
 import com.stockQuoteManager.model.Stock;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+@Service
 public class StockConverter {
 
-    public static StockDTO toDTO(Stock stock) {
+    public StockDTO toDTO(Stock stock) {
         return StockDTO
                 .builder()
                 .id(stock.getStockName())
@@ -18,7 +20,7 @@ public class StockConverter {
                 .build();
     }
 
-    public static Stock toModel(StockDTO stockDTO) {
+    public Stock toModel(StockDTO stockDTO) {
         return Stock
                 .builder()
                 .stockName(stockDTO.getId())
@@ -26,7 +28,7 @@ public class StockConverter {
                 .build();
     }
 
-    private static List<Quote> quotesToList(Map<String, String> quoteMap) {
+    private List<Quote> quotesToList(Map<String, String> quoteMap) {
         if (quoteMap == null || quoteMap.isEmpty()) {
             return null;
         }
@@ -53,7 +55,7 @@ public class StockConverter {
         return quoteList;
     }
 
-    private static Map<String, String> quotesToMap(List<Quote> quoteList) {
+    private Map<String, String> quotesToMap(List<Quote> quoteList) {
         if (quoteList == null || quoteList.isEmpty()) {
             return null;
         }
