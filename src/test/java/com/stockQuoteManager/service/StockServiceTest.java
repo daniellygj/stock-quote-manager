@@ -12,11 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
@@ -62,5 +59,28 @@ public class StockServiceTest {
 
         assertEquals(stockSaved.getStockName(), stock.getStockName());
         assertEquals(stockSaved.getQuotes(), stock.getQuotes());
+    }
+
+    @Test
+    public void findByStockNameShouldSucceed() {
+
+        Quote quote = QuoteTestBuilder
+                .init()
+                .withDefaultValues()
+                .build();
+
+        Stock stock = StockTestBuilder
+                .init()
+                .withDefaultValues()
+                .id(STOCK_ID)
+                .quotes(Collections.singletonList(quote))
+                .build();
+
+        when(repository.findByStockName(stock.getStockName())).thenReturn(stock);
+
+        Stock stockSaved = service.findQuoteByStockName(stock.getStockName());
+
+        assertEquals(stock.getStockName(), stockSaved.getStockName());
+        assertEquals(stock.getQuotes(), stockSaved.getQuotes());
     }
 }

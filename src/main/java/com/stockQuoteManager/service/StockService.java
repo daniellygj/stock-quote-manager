@@ -20,6 +20,10 @@ public class StockService {
     public Stock addNewQuote(StockDTO stockDTO) {
         return repository.save(converter.toModel(stockDTO));
     }
+
+    public Stock findQuoteByStockName(String quoteId) {
+        return repository.findByStockName(quoteId);
+    }
 }
 
 
