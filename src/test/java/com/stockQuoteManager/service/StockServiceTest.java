@@ -78,7 +78,7 @@ public class StockServiceTest {
 
         when(repository.findByStockName(stock.getStockName())).thenReturn(stock);
 
-        Stock stockSaved = service.findQuoteByStockName(stock.getStockName());
+        Stock stockSaved = service.findByStockName(stock.getStockName());
 
         assertEquals(stock.getStockName(), stockSaved.getStockName());
         assertEquals(stock.getQuotes(), stockSaved.getQuotes());

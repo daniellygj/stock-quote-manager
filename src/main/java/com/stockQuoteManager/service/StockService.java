@@ -7,6 +7,8 @@ import com.stockQuoteManager.repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StockService {
 
@@ -21,8 +23,12 @@ public class StockService {
         return repository.save(converter.toModel(stockDTO));
     }
 
-    public Stock findQuoteByStockName(String quoteId) {
+    public Stock findByStockName(String quoteId) {
         return repository.findByStockName(quoteId);
+    }
+
+    public List<Stock> findAllStock() {
+        return repository.findAll();
     }
 }
 
