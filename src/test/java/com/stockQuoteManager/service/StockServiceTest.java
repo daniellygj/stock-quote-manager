@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -35,6 +36,9 @@ public class StockServiceTest {
 
     @Mock
     private StockConverter converter;
+
+    @Mock
+    private StockManagerService stockManager;
 
     public void saveStockShouldSucceed() {
         StockDTO stockDTO = StockDTOTestBuilder
@@ -56,22 +60,12 @@ public class StockServiceTest {
 
         when(repository.save(stockSaved)).thenReturn(stockSaved);
         when(converter.toModel(stockDTO)).thenReturn(stockSaved);
+        doNothing().when(stockManager).validateStock(stockDTO.getId());
 
         Stock stock = service.addNewQuote(stockDTO);
 
         assertEquals(stockSaved.getStockName(), stock.getStockName());
         assertEquals(stockSaved.getQuotes(), stock.getQuotes());
-    }
-
-    @Test(expected = InvalidStockException.class)
-    public void saveStockShouldFail() {
-        StockDTO stockDTO = StockDTOTestBuilder
-                .init()
-                .withDefaultValues()
-                .id("invalid id")
-                .build();
-
-        service.addNewQuote(stockDTO);
     }
 
     @Test
