@@ -30,7 +30,7 @@ public class StockConverterTest {
 
         StockDTO stockDTO = toDTO(stock);
 
-        assertEquals(stock.getStock_name(), stockDTO.getId());
+        assertEquals(stock.getStockName(), stockDTO.getId());
         assertEquals(stock.getQuotes().get(0).getDate().toString(), stockDTO.getQuotes().entrySet().iterator().next().getKey());
         assertEquals(stock.getQuotes().get(0).getValue(), stockDTO.getQuotes().entrySet().iterator().next().getValue());
     }
@@ -44,7 +44,7 @@ public class StockConverterTest {
 
         Stock stock = toModel(stockDTO);
 
-        assertEquals(stockDTO.getId(), stock.getStock_name());
+        assertEquals(stockDTO.getId(), stock.getStockName());
         assertEquals(stockDTO.getQuotes().entrySet().iterator().next().getKey(), stock.getQuotes().get(0).getDate().toString());
         assertEquals(stockDTO.getQuotes().entrySet().iterator().next().getValue(), stock.getQuotes().get(0).getValue());
     }

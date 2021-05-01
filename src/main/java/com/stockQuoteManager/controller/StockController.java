@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.stockQuoteManager.controller.converter.StockConverter.toDTO;
+import static com.stockQuoteManager.controller.converter.StockConverter.toModel;
 
 @RestController
 @RequestMapping("/api/stock-quote-manager")
@@ -21,7 +22,7 @@ public class StockController {
     @PostMapping
     @ApiOperation(value = "Add new quote")
     public StockDTO newQuote(@RequestBody StockDTO stockDTO) {
-        return toDTO(service.addNewQuote(stockDTO));
+        return toDTO(service.addNewQuote(toModel(stockDTO)));
     }
 
 }

@@ -1,9 +1,8 @@
 package com.stockQuoteManager.model.DTO;
 
-import java.util.Map;
-import java.util.Map;
-
 import com.stockQuoteManager.model.DTO.StockDTO.StockDTOBuilder;
+
+import java.util.Map;
 
 public class StockDTOTestBuilder {
 

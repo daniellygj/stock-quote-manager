@@ -14,7 +14,7 @@ public class StockTestBuilder {
 
     public StockBuilder withDefaultValues() {
         return builder
-                .stock_name(DEFAULT_STOCK_NAME);
+                .stockName(DEFAULT_STOCK_NAME);
     }
 
 }

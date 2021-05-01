@@ -4,8 +4,6 @@ import com.stockQuoteManager.model.DTO.StockDTO;
 import com.stockQuoteManager.model.Quote;
 import com.stockQuoteManager.model.Stock;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -15,7 +13,7 @@ public class StockConverter {
     public static StockDTO toDTO(Stock stock) {
         return StockDTO
                 .builder()
-                .id(stock.getStock_name())
+                .id(stock.getStockName())
                 .quotes(quotesToMap(stock.getQuotes()))
                 .build();
     }
@@ -23,7 +21,7 @@ public class StockConverter {
     public static Stock toModel(StockDTO stockDTO) {
         return Stock
                 .builder()
-                .stock_name(stockDTO.getId())
+                .stockName(stockDTO.getId())
                 .quotes(quotesToList(stockDTO.getQuotes()))
                 .build();
     }
@@ -39,7 +37,7 @@ public class StockConverter {
             String value = entry.getValue();
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            formatter = formatter.withLocale( new Locale("pt", "BR") );  // Locale specifies human language for translating, and cultural norms for lowercase/uppercase and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH
+            formatter = formatter.withLocale(new Locale("pt", "BR"));  // Locale specifies human language for translating, and cultural norms for lowercase/uppercase and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH
             LocalDate localDate = LocalDate.parse(date, formatter);
 
             Quote quote = Quote

@@ -19,7 +19,7 @@ public class Stock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String stock_name;
+    private String stockName;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Quote> quotes;
