@@ -14,7 +14,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -82,5 +84,43 @@ public class StockServiceTest {
 
         assertEquals(stock.getStockName(), stockSaved.getStockName());
         assertEquals(stock.getQuotes(), stockSaved.getQuotes());
+    }
+
+    @Test
+    public void findAllStockShouldSucceed() {
+
+        Quote quote1 = QuoteTestBuilder
+                .init()
+                .withDefaultValues()
+                .build();
+
+        Stock stock1 = StockTestBuilder
+                .init()
+                .withDefaultValues()
+                .id(STOCK_ID)
+                .quotes(Collections.singletonList(quote1))
+                .build();
+
+        Quote quote2 = QuoteTestBuilder
+                .init()
+                .withDefaultValues()
+                .build();
+
+        Stock stock2 = StockTestBuilder
+                .init()
+                .withDefaultValues()
+                .id(STOCK_ID)
+                .quotes(Collections.singletonList(quote2))
+                .build();
+
+        when(repository.findAll()).thenReturn(Arrays.asList(stock1, stock2));
+
+        List<Stock> stockSaved = service.findAllStock();
+
+        assertEquals(stock1.getStockName(), stockSaved.get(0).getStockName());
+        assertEquals(stock1.getQuotes(), stockSaved.get(0).getQuotes());
+
+        assertEquals(stock2.getStockName(), stockSaved.get(1).getStockName());
+        assertEquals(stock2.getQuotes(), stockSaved.get(1).getQuotes());
     }
 }
