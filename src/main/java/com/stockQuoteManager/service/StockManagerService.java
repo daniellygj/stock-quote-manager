@@ -18,10 +18,16 @@ public class StockManagerService {
     @Autowired
     private InMemoryCache cache;
 
-    private void getStockList() throws IOException, InterruptedException {
-        String url = "http://localhost:8080/stock";
-        HttpResponse<String> response = getRequest(url);
-        cache.add("stock", response.body());
+    public void getStockList() {
+        try {
+            String url = "http://localhost:8080/stock";
+            HttpResponse<String> response = null;
+            response = getRequest(url);
+            cache.add("stock", response.body());
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private HttpResponse<String> getRequest(String url) throws IOException, InterruptedException {
@@ -38,13 +44,9 @@ public class StockManagerService {
     public void validateStock(String stockId) {
         String stock = cache.get("stock").toString();
 
-        try {
-            if (stock.isEmpty()) {
-                getStockList();
-                stock = cache.get("stock").toString();
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+        if (stock.isEmpty()) {
+            getStockList();
+            stock = cache.get("stock").toString();
         }
 
         if (!stock.contains(stockId)) {
