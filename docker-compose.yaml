@@ -1,0 +1,43 @@
+version: '3.5'
+
+services:
+  stock-manager:
+    image: lucasvilela/stock-manager
+    networks:
+      - stock-manager-network
+    restart: on-failure
+
+  mysql-service:
+    image: mysql:5.7
+    networks:
+      - stock-manager-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_DATABASE=bootdb
+    restart: on-failure
+
+  stock-manager-service:
+    build:
+      context: ./
+      args:
+        JAR_FILE: ./target/stock-quote-manager-1.0-SNAPSHOT.jar
+    ports:
+      - "8081:8081"
+    environment:
+      - DB_HOST=jdbc:mysql://mysql-service:3306/bootdb
+      - STOCK_MANAGER_URL=stock-manager
+      - STOCK_MANAGER_SERVICE=stock-manager-service
+      - DB_PASSWORD=admin
+      - DB_USERNAME=admin
+    networks:
+      - stock-manager-network
+    depends_on:
+      - mysql-service
+      - stock-manager
+    restart: on-failure
+
+networks:
+  stock-manager-network:
+    driver: bridge
