@@ -31,6 +31,7 @@ public class StockManagerService {
             }
 
             HttpResponse<String> response = getRequest(url);
+
             cache.add("stock", response.body());
 
         } catch (IOException | InterruptedException e) {
@@ -76,7 +77,7 @@ public class StockManagerService {
         String stockQuoteManager = System.getenv("STOCK_MANAGER_SERVICE");
 
         String body;
-        if(stockQuoteManager == null) {
+        if (stockQuoteManager == null) {
             body = "{ \"host\": \"localhost\", \"port\": 8081 } ";
         } else {
             body = String.format("{ \"host\": \"%s\", \"port\": 8081  }", stockQuoteManager);
